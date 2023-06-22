@@ -1,37 +1,240 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Página de inicio</title>
+  <title>inicio</title>
   <style>
-    body {
-  background-color: #f2f2f2;
-  font-family: Arial, sans-serif;
-  text-align: center;
-}
+     body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+    }
 
-h1 {
-  color: #333333;
-}
+    header {
+      background-color: #333;
+      padding: 20px;
+      color: #fff;
+    }
 
-a {
-  display: inline-block;
-  margin: 10px;
-  padding: 10px 20px;
-  background-color: #4CAF50;
-  color: white;
-  text-decoration: none;
-  border-radius: 5px;
-}
+    nav ul {
+      list-style-type: none;
+      margin: 0;
+      padding: 0;
+    }
 
-a:hover {
-  background-color: #45a049;
-}
+    nav ul li {
+      display: inline;
+      margin-right: 20px;
+    }
 
+    nav ul li a {
+      color: #fff;
+      text-decoration: none;
+    }
+
+    main {
+      padding: 20px;
+    }
+
+    h1 {
+      color: #333;
+    }
+
+    form {
+      margin-bottom: 20px;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 5px;
+    }
+
+    input[type="text"],
+    input[type="tel"],
+    input[type="email"],
+    input[type="password"],
+    select {
+      width: 300px;
+      padding: 5px;
+      margin-bottom: 10px;
+    }
+
+    input[type="submit"] {
+      background-color: #333;
+      color: #fff;
+      padding: 10px 20px;
+      border: none;
+      cursor: pointer;
+    }
+
+    .content-section {
+      display: none;
+    }
+
+    .active {
+      display: block;
+    }
+
+    .error {
+      color: red;
+    }
   </style>
+  <script>
+    function showSection(sectionId) {
+      // Oculta todas las secciones de contenido
+      var sections = document.getElementsByClassName('content-section');
+      for (var i = 0; i < sections.length; i++) {
+        sections[i].style.display = 'none';
+      }
+
+      // Muestra la sección de contenido seleccionada
+      var selectedSection = document.getElementById(sectionId);
+      if (selectedSection) {
+        selectedSection.style.display = 'block';
+      }
+    }
+    function redirectToLogin() {
+      // Realiza alguna lógica de procesamiento o validación del formulario de registro aquí
+
+      // Redirecciona al usuario a la página de inicio de sesión
+      showSection('login');
+    }
+    function validateRegistrationForm() {
+      var nombre = document.getElementById('nombre').value;
+      var apellido = document.getElementById('apellido').value;
+      var telefono = document.getElementById('telefono').value;
+      var genero = document.getElementById('genero').value;
+      var email = document.getElementById('email').value;
+      var password = document.getElementById('password').value;
+
+      var errorMessages = [];
+
+      // Verifica si algún campo está vacío y agrega un mensaje de error correspondiente
+      if (nombre === '') {
+        errorMessages.push('El campo "Nombre" es obligatorio.');
+      }
+      if (apellido === '') {
+        errorMessages.push('El campo "Apellido" es obligatorio.');
+      }
+      if (telefono === '') {
+        errorMessages.push('El campo "Teléfono" es obligatorio.');
+      }
+      if (genero === '') {
+        errorMessages.push('El campo "Género" es obligatorio.');
+      }
+      if (email === '') {
+        errorMessages.push('El campo "Correo electrónico" es obligatorio.');
+      }
+      if (password === '') {
+        errorMessages.push('El campo "Contraseña" es obligatorio.');
+      }
+
+      // Muestra los mensajes de error si los hay, o envía el formulario si no hay errores
+      var errorContainer = document.getElementById('error-container');
+      if (errorMessages.length > 0) {
+        var errorList = document.getElementById('error-list');
+        errorList.innerHTML = '';
+
+        for (var i = 0; i < errorMessages.length; i++) {
+          var errorMessage = document.createElement('li');
+          errorMessage.textContent = errorMessages[i];
+          errorList.appendChild(errorMessage);
+        }
+
+        errorContainer.style.display = 'block';
+      } else {
+        errorContainer.style.display = 'none';
+        showSection('login');
+      }
+    }
+  </script>
 </head>
 <body>
-  <h1>Bienvenido/a</h1>
-  <a href="\pagina de inicio de sesion.html">Iniciar sesión</a>
-  <a href="\pagina de registro.html">Registrarse</a>
+  <header>
+    <nav>
+      <ul>
+        <li><a href="#" onclick="showSection('inicio')">Inicio</a></li>
+        <li><a href="#" onclick="showSection('login')">Iniciar Sesión</a></li>
+        <li><a href="#" onclick="showSection('registro')">Registrarse</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main>
+    <section id="inicio" class="content-section active">
+      <h1>Bienvenido a la página de inicio</h1>
+      <p>¡Aquí encontrarás información interesante sobre nuestro sitio web!</p>
+    </section>
+
+    <section id="login" class="content-section">
+      <h1>Iniciar Sesión</h1>
+      <form>
+        
+       
+          <label for="email">Correo electrónico:</label>
+                  
+                
+          
+                 
+          <input type="email" id="email" name="email" required><br><br>
+                 
+          <label for="password">Contraseña:</label>
+
+          <input type="password" id="password" name="password" required><br><br>
+                 
+          <input type="submit" value="Iniciar Sesión">
+                
+      </form>
+          
+               
+      
+    </section>
+
+    <section id="registro" class="content-section">
+      <h1>Registrarse</h1>
+      <form onsubmit="event.preventDefault(); validateRegistrationForm();">
+        
+       
+        <div id="error-container" style="display: none;">
+                  
+                  
+        
+                 
+        <p class="error">Por favor, completa todos los campos obligatorios:</p>
+                  
+                 
+        <ul id="error-list"></ul>
+                
+               
+        </div>
+        <label for="nombre">Nombre:</label>
+        <input type="text" id="nombre" name="nombre" required><br><br>
+
+        <label for="apellido">Apellido:</label>
+        <input type="text" id="apellido" name="apellido" required><br><br>
+
+        <label for="telefono">Teléfono:</label>
+        <input type="tel" id="telefono" name="telefono" required><br><br>
+
+        <label for="genero">Género:</label>
+        <select id="genero" name="genero" required>
+          <option value="masculino">Masculino</option>
+          <option value="femenino">Femenino</option>
+          <option value="otro">Otro</option>
+        </select><br><br>
+
+        <label for="email">Correo electrónico:</label>
+        <input type="email" id="email" name="email" required><br><br>
+
+        <label for="password">Contraseña:</label>
+        <input type="password" id="password" name="password" required><br><br>
+
+        <input type="submit" value="Registrarse">
+      </form>
+    </section>
+  </main>
+
+  <footer>
+    <!-- Aquí va el contenido del pie de página -->
+  </footer>
 </body>
 </html>
